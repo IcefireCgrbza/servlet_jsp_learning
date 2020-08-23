@@ -1,0 +1,87 @@
+//web.xml
+<web-app ...>
+	...
+	<servlet>
+		<servlet-name>servletA</servlet-name>
+		<servlet-class>AClass</servlet-class>
+
+		<init-param>
+			<param-name>nameA</param-name>
+			<param-value>valueA</param-value>
+		</init-param>
+		...
+	</servlet>
+
+	<servlet>
+		<servlet-name>servletB</servlet-name>
+		<jsp-file>/BJsp</jsp-file>
+		...
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>servletA</servlet-name>
+		<url-pattern>/servletMappingA</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>servletB</servlet-name>
+		<url-pattern>/servletMappingB</url-pattern>
+	</servlet-mapping>
+
+	<context-param>
+		<param-name>nameB</param-name>
+		<param-value>valueB</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+			..../myServletContextListener
+		</listener-class>
+	</listener>
+
+	<session-config>
+		<session-timeout>15</session-timeout>
+	</session-config>
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>A.jsp</url-pattern>
+			<scripting-invalid>true</scripting-invalid>
+		</jsp-property-group>	
+		<jsp-property-group>
+			<url-pattern>B.jsp</url-pattern>
+			<el-ignored>true</el-ignored>
+		</jsp-property-group>		
+	</jsp-config>
+	...
+</web-app>
+
+//MyServlet.java
+public class MyServlet extends HttpServlet{
+	void init(ServletConfig config){
+		...
+		String initValueA = config.getInitParameter("nameA");
+		config.getServletContext().getInitParameter("nameB");
+		...
+	}
+	void doGet(HttpServletRequest request,HttpServletResponse response){
+		...
+		String initValueA = getServletConfig().getInitParameter("nameA");
+		Stirng initValueB = getServletContext().getInitParameter("nameB");
+		...
+	}
+}
+
+//web.xml
+<web-app ...>
+	...
+
+	<jsp-config>
+		<jsp-property-group>
+			<url-pattern>B.jsp</url-pattern>
+			<el-ignored>true</el-ignored>
+		</jsp-property-group>		
+	</jsp-config>
+
+	...
+</web-app>
